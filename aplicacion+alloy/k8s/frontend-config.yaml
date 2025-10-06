@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: ecommerce
+data:
+  VITE_BASE_API_URL: "http://backend.ecommerce.svc.cluster.local:3000" 

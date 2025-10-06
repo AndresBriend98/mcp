@@ -1,0 +1,87 @@
+services:
+  # Servicio de SQL Serve
+  sqlserver:
+    build: ./DB
+    container_name: sqlserver-autos
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong@Password123
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - microservices-network
+    restart: unless-stopped
+
+  # Servicio de Backend
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: api-autos
+    environment:
+      - PORT=3000
+      - DB_USER=sa
+      - DB_PASSWORD=YourStrong@Password123
+      - DB_SERVER=sqlserver
+      - DB_NAME=AutosDB
+    ports:
+      - "3000:3000"
+
+    networks:
+      - microservices-network
+    restart: unless-stopped
+    
+  # # Servicio de Frontend ACA TENES QUE COPIAR ANDRES
+  # frontend:
+  #   build:
+  #     context: ./front
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5173:5173"
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - app-network
+  #   restart: unless-stopped
+
+  # === Agente de logs: Grafana Alloy ===
+  alloy:
+    image: grafana/alloy:latest
+    command: ["run", "/etc/alloy/config.river"]
+    environment:
+      - LOKI_URL=http://loki:3100/loki/api/v1/push
+      - GLOBAL_ENV=dev
+      - GLOBAL_STACK=miapp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./alloy/config.river:/etc/alloy/config.river:ro
+    networks:
+      - microservices-network
+      - monitoring
+    restart: unless-stopped
+
+  # simple-healthcheck:
+  #   image: alpine:latest
+  #   container_name: simple_healthcheck
+  #   volumes:
+  #     - ./healthcheck-simple.sh:/healthcheck.sh:ro
+  #   command: sh /healthcheck.sh
+  #   restart: unless-stopped
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "10m"
+  #       max-file: "3"
+    
+networks:
+  microservices-network:
+    driver: bridge
+  monitoring:
+    driver: bridge    # <-- Este es el problema
+
+volumes:
+  sqlserver_data:

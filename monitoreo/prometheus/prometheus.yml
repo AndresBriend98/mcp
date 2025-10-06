@@ -1,0 +1,45 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+# Alertmanager configuration // Prometheus enviará alertas al Alertmanager ubicado en alertmanager:9093
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Load rules once and periodically evaluate them // Prometheus buscará reglas en todos los archivos .yml dentro del directorio rules
+rule_files:
+  - "rules/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  # System metrics change frequently, scrape more often // Recolecta métricas del sistema operativo (CPU, memoria, disco, etc.) expuestas por el servicio node-exporter en el puerto 9100.
+  - job_name: 'node-exporter'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['node-exporter:9100']
+
+  # Container metrics are also volatile // Recolecta métricas de contenedores (uso de CPU, memoria, etc.) desde cadvisor:8080.
+  - job_name: 'cadvisor'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['cadvisor:8080']
+
+  # Prometheus itself changes slowly, scrape less frequently // Prometheus se monitoriza a sí mismo, pero como cambia poco
+  - job_name: 'prometheus'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # SQL Server metrics collection // Recolecta métricas de SQL Server usando sql_exporter
+  - job_name: 'sql_exporter'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['192.168.255.44:9399']
+
+  - job_name: 'Windous_exporter'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['172.31.255.101:9182']

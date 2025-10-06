@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: ecommerce
+  labels:
+    app: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: joacosua/ecommerce-frontend:latest
+        ports:
+        - containerPort: 5173
+        env:
+        - name: VITE_BASE_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: frontend-config
+              key: VITE_BASE_API_URL
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: ecommerce
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 80
+    targetPort: 5173
+  type: LoadBalancer 

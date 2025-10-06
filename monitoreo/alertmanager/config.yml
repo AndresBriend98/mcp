@@ -1,0 +1,17 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: 'mailhog-receiver'
+
+receivers:
+- name: 'mailhog-receiver'
+  email_configs:
+  - to: 'destino@ejemplo.com'
+    from: 'alertmanager@local.test'
+    smarthost: 'localhost:1025'
+    require_tls: false

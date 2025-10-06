@@ -1,0 +1,42 @@
+groups:
+- name: node_alerts
+  rules:
+  - alert: CargaAltaCPU
+    # Detecta si la carga de CPU es mayor al 80% en los últimos 5 minutos
+    expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alta carga de CPU (instancia {{ $labels.instance }})"
+      description: "La carga de CPU es mayor al 80%\n  VALOR = {{ $value }}%\n  ETIQUETAS: {{ $labels }}"
+
+  - alert: CargaAltaMemoria
+    # Detecta si la carga de memoria es mayor al 80%
+    expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 80
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Alta carga de memoria (instancia {{ $labels.instance }})"
+      description: "La carga de memoria es mayor al 80%\n  VALOR = {{ $value }}%\n  ETIQUETAS: {{ $labels }}"
+
+  - alert: UsoAltoDisco
+    # Detecta si el uso del disco es mayor al 85% en sistemas de archivos ext4 o xfs
+    expr: (node_filesystem_size_bytes{fstype=~"ext4|xfs"} - node_filesystem_free_bytes{fstype=~"ext4|xfs"}) / node_filesystem_size_bytes{fstype=~"ext4|xfs"} * 100 > 85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Uso alto del disco (instancia {{ $labels.instance }})"
+      description: "El uso del disco es mayor al 85%\n  VALOR = {{ $value }}%\n  ETIQUETAS: {{ $labels }}"
+
+  - alert: CrecimientoInusualMemoria
+    # Detecta si la memoria se está consumiendo a una tasa mayor de 10MB/minuto
+    expr: deriv(node_memory_MemAvailable_bytes[30m]) < -10 * 1024 * 1024
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Consumo inusual de memoria (instancia {{ $labels.instance }})"
+      description: "La memoria se está consumiendo a una tasa mayor de 10MB/minuto\n  VALOR = {{ $value | humanize }}B/s"

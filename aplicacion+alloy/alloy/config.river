@@ -1,0 +1,111 @@
+// === Descubre contenedores y envía logs a Loki ===
+
+// 1) Descubrimiento de contenedores Docker
+discovery.docker "local" {
+  host             = "unix:///var/run/docker.sock"
+  refresh_interval = "10s"
+}
+
+// 2) Reglas de relabeling para promocionar metadatos Docker a labels
+discovery.relabel "container_labels" {
+  targets = []
+  
+  // Nombre del contenedor (sin la barra inicial)
+  rule {
+    action        = "replace"
+    source_labels = ["__meta_docker_container_name"]
+    regex         = "/(.*)"
+    target_label  = "container_name"
+    replacement   = "$1"
+  }
+  
+  // ID del contenedor (primeros 12 caracteres)
+  rule {
+    action        = "replace"
+    source_labels = ["__meta_docker_container_id"]
+    regex         = "(.{12}).*"
+    target_label  = "container_id"
+    replacement   = "$1"
+  }
+  
+  // Imagen del contenedor
+  rule {
+    action        = "replace"
+    source_labels = ["__meta_docker_container_image"]
+    target_label  = "image"
+  }
+  
+  // Proyecto de Docker Compose (si existe)
+  rule {
+    action        = "replace"
+    source_labels = ["__meta_docker_container_label_com_docker_compose_project"]
+    target_label  = "compose_project"
+  }
+  
+  // Servicio de Docker Compose (si existe)
+  rule {
+    action        = "replace"
+    source_labels = ["__meta_docker_container_label_com_docker_compose_service"]
+    target_label  = "compose_service"
+  }
+  
+  // Excluir el propio contenedor de Alloy para evitar loops
+  rule {
+    action        = "drop"
+    source_labels = ["__meta_docker_container_name"]
+    regex         = ".*/alloy.*"
+  }
+}
+
+// 3) Fuente: logs de Docker con etiquetado por contenedor
+loki.source.docker "containers" {
+  host         = "unix:///var/run/docker.sock"
+  targets      = discovery.docker.local.targets
+  relabel_rules = discovery.relabel.container_labels.rules
+
+  // Labels base para identificar cada contenedor individualmente
+  labels = {
+    job   = "docker-logs",
+    env   = env("GLOBAL_ENV"),
+    stack = env("GLOBAL_STACK"),
+  }
+
+  forward_to = [loki.process.docker_logs.receiver]
+}
+
+// 4) Procesamiento de logs: formato Docker y parsing JSON opcional
+loki.process "docker_logs" {
+  // Etapa 1: Parseo del formato Docker (extrae timestamp, stream, log)
+  stage.docker {}
+
+  // Etapa 2: Intenta parsear JSON si el log contiene JSON válido
+  stage.json {
+    source = "output"
+    expressions = {
+      level     = "level",
+      logger    = "logger", 
+      service   = "service",
+      message   = "message || msg",
+      timestamp = "timestamp || time",
+      trace_id  = "trace_id || traceId",
+      span_id   = "span_id || spanId",
+    }
+  }
+
+  // Etapa 3: Añadir labels extraídos del JSON (solo si existen)
+  stage.labels {
+    values = {
+      log_level    = "{{ if .level }}{{ .level }}{{ end }}",
+      service_name = "{{ if .service }}{{ .service }}{{ end }}",
+    }
+  }
+
+  forward_to = [loki.write.loki_endpoint.receiver]
+}
+
+// 5) Salida a Loki
+loki.write "loki_endpoint" {
+  endpoint {
+    url = env("LOKI_URL")
+  }
+}

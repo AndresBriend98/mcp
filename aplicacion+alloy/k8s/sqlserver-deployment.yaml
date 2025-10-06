@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver
+  namespace: ecommerce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlserver
+  template:
+    metadata:
+      labels:
+        app: sqlserver
+    spec:
+      securityContext:
+        fsGroup: 10001
+      initContainers:
+      - name: init-chown-data
+        image: busybox
+        command: ["sh", "-c", "chown -R 10001:10001 /var/opt/mssql"]
+        volumeMounts:
+        - name: mssql-data
+          mountPath: /var/opt/mssql
+      containers:
+      - name: sqlserver
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+        - containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sqlserver-secret
+              key: SA_PASSWORD
+        - name: MSSQL_AGENT_ENABLED
+          value: "true"
+        - name: MSSQL_PID
+          value: "Developer"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+        volumeMounts:
+        - name: mssql-data
+          mountPath: /var/opt/mssql
+      volumes:
+      - name: mssql-data
+        persistentVolumeClaim:
+          claimName: mssql-pvc

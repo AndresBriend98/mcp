@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: ecommerce
+data:
+  DB_HOST: "sqlserver"
+  DB_NAME: "ProductosDB"
+  DB_USER: "sa"
+  DB_PORT: "1433"
+  PORT: "3000" 

@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/mssql/server:2022-latest
+
+USER root
+
+# Instalar herramientas
+RUN apt-get update && \
+    apt-get install -y dos2unix curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copiar scripts
+COPY init-db/init-db.sql /docker-entrypoint-initdb.d/
+COPY init-db/entrypoint.sh /usr/local/bin/
+
+# Convertir line endings y permisos
+RUN dos2unix /usr/local/bin/entrypoint.sh && \
+    dos2unix /docker-entrypoint-initdb.d/init-db.sql && \
+    chmod +x /usr/local/bin/entrypoint.sh
+
+EXPOSE 1433
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

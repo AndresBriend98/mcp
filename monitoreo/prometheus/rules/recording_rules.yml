@@ -1,0 +1,18 @@
+groups:
+- name: recording_rules
+  interval: 1m
+  rules:
+  - record: node:cpu_usage:avg5m
+    # Prometheus calcula el uso promedio de CPU en los últimos 5 minutos
+    # Esta métrica se puede usar para crear gráficos de uso de CPU en Grafana
+    expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[2m])) * 100)
+    
+  - record: node:memory_usage:percent
+    # Prometheus calcula el uso de memoria como porcentaje
+    # Esta métrica se puede usar para crear gráficos de uso de memoria en Grafana
+    expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
+    
+  - record: container:cpu_usage:avg5m
+    # Prometheus calcula el uso promedio de CPU de los contenedores en los últimos 5 minutos
+    # Esta métrica se puede usar para crear gráficos de uso de CPU de contenedores
+    expr: sum by(name) (rate(container_cpu_usage_seconds_total{name!=""}[5m])) * 100

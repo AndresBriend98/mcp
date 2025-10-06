@@ -1,0 +1,2233 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "snapshotData": [],
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Monitoreo de SO y Docker",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 3,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "name": "grafana",
+        "uid": "grafana"
+      },
+      "description": "Porcentaje promedio de uso de CPU de cada contenedor identificado por su name en los últimos 5 minutos.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.0.2",
+      "snapshotData": [
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "name": "alertmanager"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                0.1991457328059281,
+                0.19924210206036763,
+                0.19939877896347044,
+                0.20249070375980932,
+                0.20126094159066535,
+                0.20148489115504137,
+                0.20107249988780665,
+                0.19949261324858453,
+                0.19894844814351956,
+                0.19770523560749118,
+                0.19855129965567733,
+                0.1993114747298809
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "executedQueryString": "Expr: sum by(name) (rate(container_cpu_usage_seconds_total{name!=\"\"}[5m])) * 100\nStep: 15s",
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-cadvisor-ContenedoresCPU"
+        },
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "name": "cadvisor"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                4.364705617619668,
+                4.4083054216138455,
+                4.386443351998563,
+                4.389349739778443,
+                4.369016018779146,
+                4.3840967373408954,
+                4.382872215264208,
+                4.415911297875104,
+                4.413817537949634,
+                4.41993497592596,
+                4.425406812757647,
+                4.426373964194669
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-cadvisor-ContenedoresCPU"
+        },
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "name": "grafana"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                0.35482518156141446,
+                0.3578823699650966,
+                0.35624997837019257,
+                0.35696822022198516,
+                0.3539725137897416,
+                0.3849758860379317,
+                0.3847471194663359,
+                0.3850036958726585,
+                0.3653783660303654,
+                0.3885391975064461,
+                0.3867930058307604,
+                0.39486956341560203
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-cadvisor-ContenedoresCPU"
+        },
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "name": "mailhog"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                0.0008076423847427466,
+                0.0017042382075878471,
+                0.0017017471454120836,
+                0.001703452003484081,
+                0.0016159843048170917,
+                0.0017028939173472264,
+                0.0017029174601747865,
+                0.001703247128125496,
+                0.0011456971144769854,
+                0.001219298757365429,
+                0.0012265342897976855,
+                0.0012153739849079283
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-cadvisor-ContenedoresCPU"
+        },
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "name": "node-exporter"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                0.35514329642234777,
+                0.3580105468763343,
+                0.3508492594650661,
+                0.3535163257365808,
+                0.35553757981515893,
+                0.353406526569692,
+                0.3549974163767332,
+                0.35791851041868966,
+                0.35154192630255415,
+                0.35892035801951405,
+                0.34983822581875623,
+                0.34178005160968994
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-cadvisor-ContenedoresCPU"
+        },
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "fillOpacity": 80,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 1,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "name": "prometheus"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                0.39646000350801286,
+                0.3978140102850002,
+                0.3981604734445628,
+                0.39121016569423256,
+                0.38998993981172886,
+                0.389975333411209,
+                0.3905042580644995,
+                0.3960855693434141,
+                0.40311515164095657,
+                0.4078164353880439,
+                0.4072804010405073,
+                0.40158003482778915
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-cadvisor-ContenedoresCPU"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "name": "grafana",
+            "uid": "grafana"
+          },
+          "queryType": "snapshot",
+          "refId": "A",
+          "snapshot": [
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    0.1991457328059281,
+                    0.19924210206036763,
+                    0.19939877896347044,
+                    0.20249070375980932,
+                    0.20126094159066535,
+                    0.20148489115504137,
+                    0.20107249988780665,
+                    0.19949261324858453,
+                    0.19894844814351956,
+                    0.19770523560749118,
+                    0.19855129965567733,
+                    0.1993114747298809
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "name": "alertmanager"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "executedQueryString": "Expr: sum by(name) (rate(container_cpu_usage_seconds_total{name!=\"\"}[5m])) * 100\nStep: 15s",
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-cadvisor-ContenedoresCPU"
+              }
+            },
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    4.364705617619668,
+                    4.4083054216138455,
+                    4.386443351998563,
+                    4.389349739778443,
+                    4.369016018779146,
+                    4.3840967373408954,
+                    4.382872215264208,
+                    4.415911297875104,
+                    4.413817537949634,
+                    4.41993497592596,
+                    4.425406812757647,
+                    4.426373964194669
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "name": "cadvisor"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-cadvisor-ContenedoresCPU"
+              }
+            },
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    0.35482518156141446,
+                    0.3578823699650966,
+                    0.35624997837019257,
+                    0.35696822022198516,
+                    0.3539725137897416,
+                    0.3849758860379317,
+                    0.3847471194663359,
+                    0.3850036958726585,
+                    0.3653783660303654,
+                    0.3885391975064461,
+                    0.3867930058307604,
+                    0.39486956341560203
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "name": "grafana"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-cadvisor-ContenedoresCPU"
+              }
+            },
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    0.0008076423847427466,
+                    0.0017042382075878471,
+                    0.0017017471454120836,
+                    0.001703452003484081,
+                    0.0016159843048170917,
+                    0.0017028939173472264,
+                    0.0017029174601747865,
+                    0.001703247128125496,
+                    0.0011456971144769854,
+                    0.001219298757365429,
+                    0.0012265342897976855,
+                    0.0012153739849079283
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "name": "mailhog"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-cadvisor-ContenedoresCPU"
+              }
+            },
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    0.35514329642234777,
+                    0.3580105468763343,
+                    0.3508492594650661,
+                    0.3535163257365808,
+                    0.35553757981515893,
+                    0.353406526569692,
+                    0.3549974163767332,
+                    0.35791851041868966,
+                    0.35154192630255415,
+                    0.35892035801951405,
+                    0.34983822581875623,
+                    0.34178005160968994
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "name": "node-exporter"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-cadvisor-ContenedoresCPU"
+              }
+            },
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    0.39646000350801286,
+                    0.3978140102850002,
+                    0.3981604734445628,
+                    0.39121016569423256,
+                    0.38998993981172886,
+                    0.389975333411209,
+                    0.3905042580644995,
+                    0.3960855693434141,
+                    0.40311515164095657,
+                    0.4078164353880439,
+                    0.4072804010405073,
+                    0.40158003482778915
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "name": "prometheus"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-cadvisor-ContenedoresCPU"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Porcentaje de uso promedio de CPU por contenedor. DOCKER",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "name": "grafana",
+        "uid": "grafana"
+      },
+      "description": "Calcula el % de uso de memoria",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "{instance=\"node-exporter:9100\", job=\"node-exporter\"}"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "snapshotData": [
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "showPoints": "auto",
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "fixedColor": "super-light-red",
+                  "mode": "fixed"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "instance": "node-exporter:9100",
+                "job": "node-exporter"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                30.388679028206557,
+                30.390293772436117,
+                30.499087164902726,
+                30.498784400359686,
+                30.54248341607215,
+                30.556410585052113,
+                30.555905977480375,
+                30.64138650013271,
+                30.361430219332725,
+                30.45286511133157,
+                30.477590882346707,
+                30.625339979351455
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "executedQueryString": "Expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100\nStep: 15s",
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-NodeExport-UsoMemoria"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "name": "grafana",
+            "uid": "grafana"
+          },
+          "queryType": "snapshot",
+          "refId": "A",
+          "snapshot": [
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    30.388679028206557,
+                    30.390293772436117,
+                    30.499087164902726,
+                    30.498784400359686,
+                    30.54248341607215,
+                    30.556410585052113,
+                    30.555905977480375,
+                    30.64138650013271,
+                    30.361430219332725,
+                    30.45286511133157,
+                    30.477590882346707,
+                    30.625339979351455
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "instance": "node-exporter:9100",
+                      "job": "node-exporter"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "executedQueryString": "Expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100\nStep: 15s",
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-NodeExport-UsoMemoria"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "uso de memoria como porcentaje. SO",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "name": "grafana",
+        "uid": "grafana"
+      },
+      "description": "Se calcula el uso total del uso del disco del sistema operativo",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 1,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "9.5.15",
+      "snapshotData": [
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {},
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "thresholds"
+                },
+                "custom": {},
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "device": "/dev/mapper/ubuntu--vg-ubuntu--lv",
+                "fstype": "ext4",
+                "instance": "node-exporter:9100",
+                "job": "node-exporter",
+                "mountpoint": "/"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                11.446478918390158,
+                11.446530495261753,
+                11.446558267423379,
+                11.446609844294976,
+                11.446629681553288,
+                11.446685225876541,
+                11.446709030586511,
+                11.446760607458106,
+                11.44678044471642,
+                11.446835989039672,
+                11.446859793749642,
+                11.446911370621237
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "executedQueryString": "Expr: 100 * (1 - (node_filesystem_free_bytes / node_filesystem_size_bytes))\nStep: 15s",
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-NodeExport-UsoDisco"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "name": "grafana",
+            "uid": "grafana"
+          },
+          "queryType": "snapshot",
+          "refId": "A",
+          "snapshot": [
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    11.446478918390158,
+                    11.446530495261753,
+                    11.446558267423379,
+                    11.446609844294976,
+                    11.446629681553288,
+                    11.446685225876541,
+                    11.446709030586511,
+                    11.446760607458106,
+                    11.44678044471642,
+                    11.446835989039672,
+                    11.446859793749642,
+                    11.446911370621237
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "device": "/dev/mapper/ubuntu--vg-ubuntu--lv",
+                      "fstype": "ext4",
+                      "instance": "node-exporter:9100",
+                      "job": "node-exporter",
+                      "mountpoint": "/"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "executedQueryString": "Expr: 100 * (1 - (node_filesystem_free_bytes / node_filesystem_size_bytes))\nStep: 15s",
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-NodeExport-UsoDisco"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Uso del Disco%. SO",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "name": "grafana",
+        "uid": "grafana"
+      },
+      "description": " Prometheus calcula el uso promedio de CPU en los últimos 5 minutos",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.2",
+      "snapshotData": [
+        {
+          "fields": [
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "showPoints": "auto",
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "interval": 15000,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "name": "Time",
+              "type": "time",
+              "values": [
+                1753281675000,
+                1753281690000,
+                1753281705000,
+                1753281720000,
+                1753281735000,
+                1753281750000,
+                1753281765000,
+                1753281780000,
+                1753281795000,
+                1753281810000,
+                1753281825000,
+                1753281840000
+              ]
+            },
+            {
+              "config": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "drawStyle": "line",
+                  "fillOpacity": 0,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "labels": {
+                "instance": "node-exporter:9100"
+              },
+              "name": "Value",
+              "type": "number",
+              "values": [
+                4.3999999994412065,
+                4.550000000745058,
+                3.9999999990686774,
+                4.249999998137355,
+                4.00000000139697,
+                4.499999999534339,
+                6.750000000465661,
+                5.500000000465661,
+                4.3500000005587935,
+                4.550000000745058,
+                4.299999999348074,
+                4.2500000004656755
+              ]
+            }
+          ],
+          "meta": {
+            "custom": {
+              "resultType": "matrix"
+            },
+            "executedQueryString": "Expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)\nStep: 15s",
+            "preferredVisualisationType": "graph",
+            "type": "timeseries-multi",
+            "typeVersion": [
+              0,
+              1
+            ]
+          },
+          "refId": "A-NodeExport-UsoPromedioCPU"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "name": "grafana",
+            "uid": "grafana"
+          },
+          "queryType": "snapshot",
+          "refId": "A",
+          "snapshot": [
+            {
+              "data": {
+                "values": [
+                  [
+                    1753281675000,
+                    1753281690000,
+                    1753281705000,
+                    1753281720000,
+                    1753281735000,
+                    1753281750000,
+                    1753281765000,
+                    1753281780000,
+                    1753281795000,
+                    1753281810000,
+                    1753281825000,
+                    1753281840000
+                  ],
+                  [
+                    4.3999999994412065,
+                    4.550000000745058,
+                    3.9999999990686774,
+                    4.249999998137355,
+                    4.00000000139697,
+                    4.499999999534339,
+                    6.750000000465661,
+                    5.500000000465661,
+                    4.3500000005587935,
+                    4.550000000745058,
+                    4.299999999348074,
+                    4.2500000004656755
+                  ]
+                ]
+              },
+              "schema": {
+                "fields": [
+                  {
+                    "config": {
+                      "interval": 15000
+                    },
+                    "name": "Time",
+                    "type": "time",
+                    "typeInfo": {
+                      "frame": "time.Time"
+                    }
+                  },
+                  {
+                    "config": {},
+                    "labels": {
+                      "instance": "node-exporter:9100"
+                    },
+                    "name": "Value",
+                    "type": "number",
+                    "typeInfo": {
+                      "frame": "float64"
+                    }
+                  }
+                ],
+                "meta": {
+                  "custom": {
+                    "resultType": "matrix"
+                  },
+                  "executedQueryString": "Expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)\nStep: 15s",
+                  "preferredVisualisationType": "graph",
+                  "type": "timeseries-multi",
+                  "typeVersion": [
+                    0,
+                    1
+                  ]
+                },
+                "refId": "A-NodeExport-UsoPromedioCPU"
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Uso promedio de CPU. SO",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "1d",
+  "schemaVersion": 38,
+  "snapshot": {
+    "originalUrl": "/d/fd2054d7-2686-4f95-90a9-8380ef44c82c"
+  },
+  "style": "dark",
+  "tags": [
+    "SO",
+    "Docker"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2025-07-23T14:41:28.751Z",
+    "to": "2025-07-23T14:44:10.386Z"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "SO + Docker",
+  "uid": "fd2054d7-2686-4f95-90a9-8380ef44c82c",
+  "version": 2,
+  "weekStart": ""
+}
