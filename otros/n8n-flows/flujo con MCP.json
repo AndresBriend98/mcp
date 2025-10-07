@@ -1,0 +1,174 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7df1ca0f-8054-4761-af9b-5b842b654bc5",
+      "name": "When chat message received",
+      "webhookId": "040d7187-4642-4f1e-8616-ff8392b2302d"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        -32
+      ],
+      "id": "317792d8-2f3b-4c83-9bee-977bfdf5abaf",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "26ad0e46-a44d-4ec8-9f47-c765334bce75",
+      "name": "Google Gemini Chat Model",
+      "notesInFlow": false,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "J4Lmyqcn7gJ66DjT",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        368,
+        224
+      ],
+      "id": "0d45df5d-8f54-4ed7-bac1-f4ace59f3d24",
+      "name": "ATLASSIAN MCP TOOLS",
+      "notesInFlow": true,
+      "credentials": {
+        "mcpClientApi": {
+          "id": "gaJLG6USf28FDERK",
+          "name": "MCP Client (STDIO) account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "operation": "executeTool",
+        "toolName": "jira_get_all_projects",
+        "toolParameters": "={\n  \n}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        512,
+        224
+      ],
+      "id": "a0a940b0-663c-4668-9d68-5757d04dc078",
+      "name": "cliente MCP",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "gaJLG6USf28FDERK",
+          "name": "MCP Client (STDIO) account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "07dd51a2-8534-498d-be79-1e18ca2fd780",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ATLASSIAN MCP TOOLS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cliente MCP": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fe6f3631-de0b-4af2-ad07-f83213c9f3ed",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "09eb4751a53be2958ad8ed6c3f95e1e35826b9d054607fe12b9e87b4b451a96d"
+  },
+  "id": "V6HutPR55c8I5Cyi",
+  "tags": []
+}

@@ -124,10 +124,30 @@ app.get('/autos/:id', async (req, res) => {
     }
 });
 
-// POST /autos - Crear un nuevo auto
+// POST /autos - Crear un nuevo auto 
 app.post('/autos', async (req, res) => {
     try {
         const { modelo, marca, anio } = req.body;
+        
+        // ERROR Y BLOQUEO - NO SE CREA EL AUTO
+        console.error(JSON.stringify({
+            timestamp: new Date().toISOString(),
+            level: "error",
+            service: "api-autos",
+            error_code: "DB_CONNECTION_POOL_EXHAUSTED",
+            category: "database",
+            severity: "critical",
+            endpoint: "POST /autos",
+            message: "Pool de conexiones a base de datos agotado",
+            request_data: { modelo, marca, anio },
+        }));
+        
+        // BLOQUEAR LA CREACIÓN
+        return res.status(503).json({
+            success: false,
+            error: 'Servicio temporalmente no disponible: Pool de conexiones agotado',
+            error_code: 'DB_CONNECTION_POOL_EXHAUSTED'
+        });
         
         // Validaciones
         if (!modelo || !marca || !anio) {
@@ -176,7 +196,6 @@ app.put('/autos/:id', async (req, res) => {
         const { id } = req.params;
         const { modelo, marca, anio } = req.body;
         
-        // Validaciones
         if (!modelo || !marca || !anio) {
             return res.status(400).json({ 
                 success: false,
@@ -232,7 +251,6 @@ app.patch('/autos/:id', async (req, res) => {
         const { id } = req.params;
         const { modelo, marca, anio } = req.body;
         
-        // Validar que al menos un campo esté presente
         if (!modelo && !marca && !anio) {
             return res.status(400).json({ 
                 success: false,
@@ -240,7 +258,6 @@ app.patch('/autos/:id', async (req, res) => {
             });
         }
         
-        // Validar año si se proporciona
         if (anio && (typeof anio !== 'number' || anio < 1900 || anio > 2100)) {
             return res.status(400).json({ 
                 success: false,
@@ -248,7 +265,6 @@ app.patch('/autos/:id', async (req, res) => {
             });
         }
         
-        // Construir la query dinámicamente
         const updates = [];
         const request = (await getPool()).request();
         request.input('id', sql.Int, id);
@@ -303,7 +319,6 @@ app.delete('/autos/:id', async (req, res) => {
         const { id } = req.params;
         const pool = await getPool();
         
-        // Primero obtener el auto antes de eliminarlo
         const autoResult = await pool.request()
             .input('id', sql.Int, id)
             .query('SELECT * FROM Autos WHERE Id = @id');
@@ -315,7 +330,6 @@ app.delete('/autos/:id', async (req, res) => {
             });
         }
         
-        // Eliminar el auto
         await pool.request()
             .input('id', sql.Int, id)
             .query('DELETE FROM Autos WHERE Id = @id');

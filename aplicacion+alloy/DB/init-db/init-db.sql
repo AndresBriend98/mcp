@@ -23,18 +23,35 @@ BEGIN
 END
 GO
 
--- Insertar algunos datos de ejemplo
-INSERT INTO Autos (Modelo, Marca, Anio) VALUES 
-    ('Corolla', 'Toyota', 2023),
-    ('Civic', 'Honda', 2022),
-    ('Mustang', 'Ford', 2024),
-    ('Model 3', 'Tesla', 2023),
-    ('Golf', 'Volkswagen', 2022);
+-- Insertar datos SOLO si la tabla está vacía
+IF NOT EXISTS (SELECT 1 FROM Autos)
+BEGIN
+    INSERT INTO Autos (Modelo, Marca, Anio) VALUES 
+        ('Corolla', 'Toyota', 2023),
+        ('Civic', 'Honda', 2022),
+        ('Mustang', 'Ford', 2024),
+        ('Model 3', 'Tesla', 2023),
+        ('Golf', 'Volkswagen', 2022);
+    
+    PRINT 'Datos de ejemplo insertados';
+END
+ELSE
+BEGIN
+    PRINT 'La tabla ya contiene datos, no se insertaron duplicados';
+END
 GO
 
--- Crear índices para mejorar el rendimiento
-CREATE INDEX IX_Autos_Marca ON Autos(Marca);
-CREATE INDEX IX_Autos_Anio ON Autos(Anio);
+-- Crear índices para mejorar el rendimiento (solo si no existen)
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_Autos_Marca' AND object_id = OBJECT_ID('Autos'))
+BEGIN
+    CREATE INDEX IX_Autos_Marca ON Autos(Marca);
+END
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'IX_Autos_Anio' AND object_id = OBJECT_ID('Autos'))
+BEGIN
+    CREATE INDEX IX_Autos_Anio ON Autos(Anio);
+END
 GO
 
 PRINT 'Base de datos y tabla creadas exitosamente';

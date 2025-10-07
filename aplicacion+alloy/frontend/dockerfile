@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copiar package.json e instalar dependencias
+COPY package*.json ./
+RUN npm install --production
+
+# Crear carpeta public y copiar el HTML
+RUN mkdir -p public
+COPY index.html ./public/
+
+# Copiar el servidor
+COPY server.js ./
+
+EXPOSE 80
+
+CMD ["node", "server.js"]

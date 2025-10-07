@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Autos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions .btn {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Gestión de Autos</h1>
+            <p>Sistema de administración de vehículos</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="openAddModal()">
+                ➕ Añadir Nuevo Auto
+            </button>
+        </div>
+
+        <div class="table-container">
+            <div id="loading" class="loading">Cargando autos...</div>
+            <div id="error" class="error" style="display: none;"></div>
+            <div id="success" class="success" style="display: none;"></div>
+            
+            <table id="autosTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Modelo</th>
+                        <th>Marca</th>
+                        <th>Año</th>
+                        <th>Fecha Registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="autosTableBody"></tbody>
+            </table>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3>No hay autos registrados</h3>
+                <p>Comienza agregando tu primer auto</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para agregar/editar -->
+    <div id="autoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Añadir Nuevo Auto</h2>
+            </div>
+            <form id="autoForm">
+                <div class="form-group">
+                    <label for="modelo">Modelo *</label>
+                    <input type="text" id="modelo" name="modelo" required>
+                </div>
+                <div class="form-group">
+                    <label for="marca">Marca *</label>
+                    <input type="text" id="marca" name="marca" required>
+                </div>
+                <div class="form-group">
+                    <label for="anio">Año *</label>
+                    <input type="number" id="anio" name="anio" min="1900" max="2100" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+        let currentEditId = null;
+
+        // Cargar autos al iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAutos();
+        });
+
+        // Cargar lista de autos
+        async function loadAutos() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('autosTable').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'none';
+                
+                const response = await fetch(`${API_URL}/autos`);
+                const data = await response.json();
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                if (data.success && data.data.length > 0) {
+                    renderAutos(data.data);
+                    document.getElementById('autosTable').style.display = 'table';
+                } else {
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error al cargar autos:', error);
+                document.getElementById('loading').style.display = 'none';
+                showError('Error al conectar con el servidor');
+            }
+        }
+
+        // Renderizar tabla de autos
+        function renderAutos(autos) {
+            const tbody = document.getElementById('autosTableBody');
+            tbody.innerHTML = autos.map(auto => `
+                <tr>
+                    <td>${auto.Id}</td>
+                    <td>${auto.Modelo}</td>
+                    <td>${auto.Marca}</td>
+                    <td>${auto.Anio}</td>
+                    <td>${new Date(auto.FechaRegistro).toLocaleDateString()}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn btn-info" onclick="viewDetails(${auto.Id})">
+                                👁️ Ver Detalles
+                            </button>
+                            <button class="btn btn-warning" onclick="editAuto(${auto.Id})">
+                                ✏️ Editar
+                            </button>
+                            <button class="btn btn-danger" onclick="deleteAuto(${auto.Id})">
+                                🗑️ Eliminar
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Abrir modal para agregar
+        function openAddModal() {
+            currentEditId = null;
+            document.getElementById('modalTitle').textContent = 'Añadir Nuevo Auto';
+            document.getElementById('autoForm').reset();
+            document.getElementById('autoModal').classList.add('active');
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            document.getElementById('autoModal').classList.remove('active');
+            currentEditId = null;
+        }
+
+        // Enviar formulario
+        document.getElementById('autoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                modelo: document.getElementById('modelo').value,
+                marca: document.getElementById('marca').value,
+                anio: parseInt(document.getElementById('anio').value)
+            };
+
+            try {
+                let response;
+                if (currentEditId) {
+                    response = await fetch(`${API_URL}/autos/${currentEditId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                } else {
+                    response = await fetch(`${API_URL}/autos`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                }
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(data.message);
+                    closeModal();
+                    loadAutos();
+                } else {
+                    showError(data.error || 'Error al guardar');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al conectar con el servidor');
+            }
+        });
+
+        // Ver detalles (GENERA ERROR Y LO ENVIA AL SERVIDOR FRONTEND)
+        async function viewDetails(id) {
+            const errorLog = {
+                timestamp: new Date().toISOString(),
+                level: "error",
+                service: "frontend-autos",
+                error_code: "FRONT_RENDER_FAILED",
+                category: "rendering",
+                severity: "high",
+                action: "view_details",
+                auto_id: id,
+                message: "Fallo en renderizado del componente de detalles",
+                client_info: {
+                    url: window.location.href,
+                    user_agent: navigator.userAgent
+                }
+            };
+            
+            // Log en consola del navegador
+            console.error(JSON.stringify(errorLog));
+            
+            // Enviar error al PROPIO servidor frontend para que aparezca en docker logs
+            try {
+                await fetch('/log-error', {  // ← Nota: ahora es /log-error sin API_URL
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(errorLog)
+                });
+            } catch (e) {
+                console.error('No se pudo registrar el error:', e);
+            }
+            
+            showError('⚠️ Error al cargar los detalles del vehículo');
+        }
+
+        // Editar auto
+        async function editAuto(id) {
+            try {
+                const response = await fetch(`${API_URL}/autos/${id}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentEditId = id;
+                    document.getElementById('modalTitle').textContent = 'Editar Auto';
+                    document.getElementById('modelo').value = data.data.Modelo;
+                    document.getElementById('marca').value = data.data.Marca;
+                    document.getElementById('anio').value = data.data.Anio;
+                    document.getElementById('autoModal').classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al cargar el auto');
+            }
+        }
+
+        // Eliminar auto
+        async function deleteAuto(id) {
+            if (!confirm('¿Estás seguro de que deseas eliminar este auto?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/autos/${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(data.message);
+                    loadAutos();
+                } else {
+                    showError(data.error || 'Error al eliminar');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Error al conectar con el servidor');
+            }
+        }
+
+        // Mostrar mensaje de error
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Mostrar mensaje de éxito
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
